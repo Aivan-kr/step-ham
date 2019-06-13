@@ -134,10 +134,13 @@ $('#loadBtn').click(function(){
  	$(this).hide();
 })
 
-$('.gallery-container').masonry({
-  // options
+let $grid = $('.gallery-container').imagesLoaded( function() {
+  // init Masonry after all images have loaded
+  $grid.masonry({
+    // options...
   itemSelector: '.gallery-item',
   columnWidth: 55,
   gutter: 10
 
+  });
 });
