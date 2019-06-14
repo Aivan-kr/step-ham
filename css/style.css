@@ -177,13 +177,13 @@ h1{
 }
 
 .square{
-	padding: 100px;
+	padding: 100px 0;
 	text-align: center;
 	white-space: nowrap;
 	font-size: 20px;
 	font-weight: bold;
 	text-transform: uppercase;
-	width: 480px;
+	width: 25%;
 }
 
 .square:nth-child(2n){
@@ -280,6 +280,10 @@ h1{
 }
 
 .tab-content{
+	display: none;
+}
+
+.tab-content.active{
 	display: flex;
 	margin-top: 25px;
 }
@@ -546,10 +550,10 @@ h1{
 	justify-content: center;
 	align-items: center;
 	height: 90px;
+	margin: 20px;
 }
 
-.back-btn,
-.fwd-btn{
+.ctrl-btn{
 	width: 30px;
 	height: 30px;
 	line-height: 30px;
@@ -559,8 +563,7 @@ h1{
 	cursor: pointer;
 }
 
-.back-btn:hover,
-.fwd-btn:hover{
+.ctrl-btn:hover{
 	border: none;
 	background-color: #18cfab;
 }

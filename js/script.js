@@ -1,53 +1,5 @@
-$('#tabsContent li:not(:first)').hide();
-$('#tabs').click((e) => {
-	$(".tabs-title.active").removeClass("active");
-	$(e.target).addClass("active");
-	$('#tabsContent li').hide();
-	$(`#tabsContent li[data-content=${e.target.dataset.content}]`).show()
-})
-
-
-let slideWidth = $(".person").first().width();
-
-$('#carTabs').on("click", (e) => {
-	switch(e.target){
-		case $("#fBtn")[0]:
-		case $("#fBtn").children()[0]:
-			if($(".img-btn").last().hasClass("active")){
-				$(".img-btn.active").removeClass("active");
-				$(".img-btn").first().addClass("active");
-			}else{
-				let nImg = $(".img-btn.active").next();
-				$(".img-btn.active").removeClass("active");
-				nImg.addClass("active");
-			}
-			break;
-		case $("#bBtn")[0]:
-		case $("#bBtn").children()[0]:
-			if($(".img-btn").first().hasClass("active")){
-				$(".img-btn.active").removeClass("active");
-				$(".img-btn").last().addClass("active");
-			}else{
-				let pImg = $(".img-btn.active").prev();
-				$(".img-btn.active").removeClass("active");
-				pImg.addClass("active");
-			}
-			break;
-		default:
-			if($(e.target).is("img")){
-				$(".img-btn.active").removeClass("active");
-				$(e.target).parent().addClass("active");
-			}
-			break;
-	}
-	$(".people").animate({
-		left: -$(".img-btn.active").data("index")*slideWidth
-	}, 1000);
-
-})
-
-setInterval(() => $("#fBtn").trigger("click"), 6000);
-
+// Navbar
+// Smooth scroll
 $('a[href*="#"]').on('click', function(e) {
 
 	$(".nav-link.active").removeClass("active");
@@ -62,6 +14,7 @@ $('a[href*="#"]').on('click', function(e) {
   	)
 })
 
+//Scrollspy
 $(window).scroll(function() {
 	if($(this).scrollTop() < $("#home").height()){
 		$(".nav-link.active").removeClass("active");
@@ -77,6 +30,17 @@ $(window).scroll(function() {
     }
 });
 
+
+//Services tabs
+$('#tabs').click((e) => {
+	$(".tabs-title.active").removeClass("active");
+	$(e.target).addClass("active");
+	$('#tabsContent li').removeClass("active");
+	$(`#tabsContent li[data-content=${e.target.dataset.content}]`).addClass("active");
+})
+
+
+//Works section images load
 function imgLoad(category, n, dest){
 	let img = new Image();
 	img.onload = () => {
@@ -92,6 +56,7 @@ function imgLoad(category, n, dest){
 			</div>`;
 		$(dest).append(container);
 	}
+	img.onerror = () => $("#loadBtn").hide();
 	img.src = `./img/${category}/${category}${n}.jpg`
 }
 
@@ -119,6 +84,7 @@ function imgPack(category, dest){
 
 imgPack($('.category.active'), ".works");
 
+//Works section tabs
 $('#categories').on("click", "li", function(e){
 	$(".category.active").removeClass("active");
 	$(this).addClass("active");
@@ -128,12 +94,47 @@ $('#categories').on("click", "li", function(e){
 	imgPack($(this), ".works");
 })
 
-
+//"Load more" button
 $('#loadBtn').click(function(){
 	imgPack($('.category.active'), ".works");
  	$(this).hide();
 })
 
+
+//Carousel
+let slideWidth = $(".person").first().width();
+
+$('#carTabs').on("click", ".img-btn", function(){
+	$(".img-btn.active").removeClass("active");
+	$(this).addClass("active");
+	$(".people").animate({
+		left: -$(".img-btn.active").data("index")*slideWidth
+	}, 1000);
+
+})
+
+$('#carTabs').on("click", ".ctrl-btn", function(){
+	let curr = $(".img-btn.active").removeClass("active");
+	if ($(this).attr("id") == "fBtn"){
+		if(curr.is($(".img-btn").last())){
+			$(".img-btn").first().addClass("active");
+		}else{
+			curr.next().addClass("active");
+		}	
+	}else{
+		if(curr.is($(".img-btn").first())){
+			$(".img-btn").last().addClass("active");
+		}else{
+			curr.prev().addClass("active");
+		}
+	}
+	$(".people").animate({
+		left: -$(".img-btn.active").data("index")*slideWidth
+	}, 1000);
+})
+
+
+//Masonry block
 let $grid = $('.gallery-container').imagesLoaded( function() {
   // init Masonry after all images have loaded
   $grid.masonry({
